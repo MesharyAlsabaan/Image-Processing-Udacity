@@ -60,12 +60,4 @@ describe('Test the input file name not exist', () => {
         expect(val).toEqual('The name of the file is not exist');
     }));
 });
-describe('Test the input is empty', () => {
-    it('should display message to the user that one if the query is empty', () => __awaiter(void 0, void 0, void 0, function* () {
-        let fileName = '';
-        const imagePath = path_1.default.resolve(imagesFolderPath, `${fileName}.png`);
-        let val = yield (0, middlewares_1.validation)('udacity', 20, 10, imagePath);
-        expect(val).toEqual('Please make sure that you fill all the queries');
-    }));
-});
 //# sourceMappingURL=indexSpec.js.map
