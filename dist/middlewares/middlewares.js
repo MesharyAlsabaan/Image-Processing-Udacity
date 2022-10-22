@@ -12,24 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resizeImage = void 0;
+exports.validation = exports.resizeImage = void 0;
 const path_1 = __importDefault(require("path"));
-const sharp = require("sharp");
-const imagesFolderPath = path_1.default.resolve("./assets/images");
+const sharp = require('sharp');
+const imagesFolderPath = path_1.default.resolve('./assets/images');
+const fs_1 = require("fs");
 function resizeImage(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let fileName = req.query.filename;
         let width = parseInt(req.query.width);
         let height = parseInt(req.query.height);
-        if (!fileName || !width && height) {
-            throw new Error("Please make sure that you fill all the queries");
-        }
-        if (width <= 0 || height <= 0) {
-            res.status(404);
-            throw new Error("Please make sure width and height are positive number");
-        }
         const imagePath = path_1.default.resolve(imagesFolderPath, `${fileName}.png`);
-        console.log("imagesFolderPath", imagesFolderPath);
+        let resultValidation = yield validation(fileName, width, height, imagePath);
+        if (resultValidation) {
+            res.send(resultValidation);
+            return false;
+        }
         try {
             yield sharp(imagePath)
                 .resize(width, height)
@@ -43,4 +41,23 @@ function resizeImage(req, res) {
     });
 }
 exports.resizeImage = resizeImage;
+function validation(fileName, width, height, imagePath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!fileName || (!width && height)) {
+            // throw new Error('Please make sure that you fill all the queries');
+            return 'Please make sure that you fill all the queries';
+        }
+        if (width <= 0 || height <= 0) {
+            // throw new Error('Please make sure width and height are positive number');
+            return 'Please make sure width and height are positive number';
+        }
+        try {
+            yield fs_1.promises.access(imagePath);
+        }
+        catch (error) {
+            return 'The name of the file is not exist';
+        }
+    });
+}
+exports.validation = validation;
 //# sourceMappingURL=middlewares.js.map
