@@ -16,14 +16,15 @@ export async function resizeImage(req: express.Request, res: express.Response):P
 let resultValidation = await validation(fileName,width,height,imagePath); 
 let isImageExist = await checkImageExist(destination);
 
-if(isImageExist){
-  res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
-  return;
-}
+
 
 if(resultValidation){
     res.send(resultValidation);
     return false
+}
+if(isImageExist){
+  res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
+  return;
 }
 
   try {
@@ -53,6 +54,7 @@ export async function validation(fileName?:string,width?:number,height?:number,i
    
     try {
       await fs.access(imagePath);
+      return ''
   } catch (error) {
       return 'The name of the file is not exist'
   

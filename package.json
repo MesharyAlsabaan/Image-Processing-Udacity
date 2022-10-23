@@ -8,7 +8,7 @@
     "prestart": "npm run build",
     "start": " node .",
     "jasmine": "jasmine",
-    "test": "node spec/spec_runner.js",
+    "test": "jasmine",
     "lint": "eslint src/**.ts --fix",
     "prettier": "prettier --config .prettierrc src/**/*.ts --write"
   },

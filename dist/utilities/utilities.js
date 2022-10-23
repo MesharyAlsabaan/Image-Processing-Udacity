@@ -26,14 +26,13 @@ function resizeImage(req, res) {
         const destination = `${imagesFolderPath}/thumb/${width}X${height}.png`;
         let resultValidation = yield validation(fileName, width, height, imagePath);
         let isImageExist = yield checkImageExist(destination);
-        if (isImageExist) {
-            res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
-            console.log('in');
-            return;
-        }
         if (resultValidation) {
             res.send(resultValidation);
             return false;
+        }
+        if (isImageExist) {
+            res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
+            return;
         }
         try {
             yield sharp(imagePath)
@@ -43,7 +42,6 @@ function resizeImage(req, res) {
         catch (e) {
             res.send(e);
         }
-        console.log(`${imagesFolderPath}/thumb/${width}X${height}.png`);
         res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
     });
 }
@@ -60,6 +58,7 @@ function validation(fileName, width, height, imagePath) {
         }
         try {
             yield fs_1.promises.access(imagePath);
+            return '';
         }
         catch (error) {
             return 'The name of the file is not exist';
