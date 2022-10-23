@@ -1,11 +1,34 @@
 import supertest from 'supertest';
 import app from '../index';
 const request = supertest(app);
-import {validation} from '../utilities/utilities'
+import {validation} from '../middleware/middleware'
 import path from 'path';
+import {resizeImage} from '../middleware/utilities'
 const imagesFolderPath = path.resolve('./assets/images');
 
 
+
+
+describe('Test the resizeImage', (): void => {
+  it('should pass', async (): Promise<void> => {
+    let fileName = 'udacity'
+    let width =20;
+    let height = 30;
+
+
+    const imagePath = path.resolve(imagesFolderPath, `${fileName}.png`);
+    console.log('path1',imagePath);
+    
+   let imagesFPath=  path.resolve(imagesFolderPath,`/thumb/${width}X${height}.png`);
+   console.log('path',imagesFPath);
+   
+    
+   let result= await resizeImage(imagePath,width,height,imagesFolderPath);
+   
+    
+    expect(result).toEqual(true);
+  });
+});
 
 
 // Test the End points
@@ -67,3 +90,4 @@ describe('Test the input file name not exist', (): void => {
     expect(val).toEqual('The name of the file is not exist');
   });
 });
+

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { resizeImage } from '../utilities/utilities';
+import { getImage } from '../middleware/middleware';
 import express from 'express';
 
 const router = Router();
@@ -12,7 +12,7 @@ router.get('/', function (req:express.Request, res:express.Response) {
 
 
 router.get('/api/images', function (req:express.Request, res:express.Response) {
-  resizeImage(req, res);
+  getImage(req, res);
 });
 
 export default router;
