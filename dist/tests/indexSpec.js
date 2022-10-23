@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
 const request = (0, supertest_1.default)(index_1.default);
-const middlewares_1 = require("../middlewares/middlewares");
+const utilities_1 = require("../utilities/utilities");
 const path_1 = __importDefault(require("path"));
 const imagesFolderPath = path_1.default.resolve('./assets/images');
 // Test the End points
@@ -48,7 +48,7 @@ describe('Test the input width if it is < 1', () => {
     it('should display message to the user that width or height is < 1', () => __awaiter(void 0, void 0, void 0, function* () {
         let fileName = 'udacity';
         const imagePath = path_1.default.resolve(imagesFolderPath, `${fileName}.png`);
-        let val = yield (0, middlewares_1.validation)('udacity', -20, 10, imagePath);
+        let val = yield (0, utilities_1.validation)('udacity', -20, 10, imagePath);
         expect(val).toEqual('Please make sure width and height are positive number');
     }));
 });
@@ -56,7 +56,7 @@ describe('Test the input file name not exist', () => {
     it('should display message to the user that there is no file on this name', () => __awaiter(void 0, void 0, void 0, function* () {
         let fileName = 'udacity2';
         const imagePath = path_1.default.resolve(imagesFolderPath, `${fileName}.png`);
-        let val = yield (0, middlewares_1.validation)('udacity', 20, 10, imagePath);
+        let val = yield (0, utilities_1.validation)('udacity', 20, 10, imagePath);
         expect(val).toEqual('The name of the file is not exist');
     }));
 });

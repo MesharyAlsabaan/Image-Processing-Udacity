@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { resizeImage } from '../middlewares/middlewares';
+import { resizeImage } from '../utilities/utilities';
 import express from 'express';
 
 const router = Router();

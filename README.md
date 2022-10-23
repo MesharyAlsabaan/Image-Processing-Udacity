@@ -1,8 +1,8 @@
 
 
 -Scripts
-- To start the server: `npm run start`
-- To start the test: `npm run start:test`
+First `npm i`
+- To start the server: `npm start`
 - To create the dist: `npm run build`
 - To run jasmine test: `npm run jasmine`
 - To Format with prettier: `npm run prettier`

@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import app from '../index';
 const request = supertest(app);
-import {validation} from '../middlewares/middlewares'
+import {validation} from '../utilities/utilities'
 import path from 'path';
 const imagesFolderPath = path.resolve('./assets/images');
 
