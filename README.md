@@ -11,6 +11,6 @@
 
 -EndPoints
 Enter the param of filename width and height.
-- http://localhost:3000 the main page of the server
-- http://localhost:3000/api/images?filename=udacity&width=1920&height=1080 for resize
+- http://localhost:8080 the main page of the server
+- http://localhost:8080/api/images?filename=udacity&width=1920&height=1080 for resize
 
