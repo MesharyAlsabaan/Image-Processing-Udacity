@@ -10,9 +10,16 @@ export async function resizeImage(req: express.Request, res: express.Response):P
   let width = parseInt(req.query.width as string);
   let height = parseInt(req.query.height as string);
   const imagePath = path.resolve(imagesFolderPath, `${fileName}.png`);
+  const destination = `${imagesFolderPath}/thumb/${width}X${height}.png`;
 
 
 let resultValidation = await validation(fileName,width,height,imagePath); 
+let isImageExist = await checkImageExist(destination);
+
+if(isImageExist){
+  res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
+  return;
+}
 
 if(resultValidation){
     res.send(resultValidation);
@@ -26,7 +33,6 @@ if(resultValidation){
   } catch (e) {
     res.send(e);
   }
-  console.log(`${imagesFolderPath}/thumb/${width}X${height}.png`);
 
   res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
 }
@@ -34,6 +40,7 @@ if(resultValidation){
 
 
 export async function validation(fileName?:string,width?:number,height?:number,imagePath?:string):Promise<string>{
+  
     if (!fileName || (!width && height)) {
       // throw new Error('Please make sure that you fill all the queries');
       return 'Please make sure that you fill all the queries'
@@ -43,10 +50,24 @@ export async function validation(fileName?:string,width?:number,height?:number,i
       return 'Please make sure width and height are positive number';
     }
   
+   
     try {
       await fs.access(imagePath);
   } catch (error) {
       return 'The name of the file is not exist'
   
   }
+}
+
+
+export async function checkImageExist(destination:string){
+  try {
+    await fs.access(destination);
+    return true
+} catch (error) {
+  
+    return false
+
+}
+
 }

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validation = exports.resizeImage = void 0;
+exports.checkImageExist = exports.validation = exports.resizeImage = void 0;
 const path_1 = __importDefault(require("path"));
 const sharp = require('sharp');
 const imagesFolderPath = path_1.default.resolve('./assets/images');
@@ -23,7 +23,14 @@ function resizeImage(req, res) {
         let width = parseInt(req.query.width);
         let height = parseInt(req.query.height);
         const imagePath = path_1.default.resolve(imagesFolderPath, `${fileName}.png`);
+        const destination = `${imagesFolderPath}/thumb/${width}X${height}.png`;
         let resultValidation = yield validation(fileName, width, height, imagePath);
+        let isImageExist = yield checkImageExist(destination);
+        if (isImageExist) {
+            res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
+            console.log('in');
+            return;
+        }
         if (resultValidation) {
             res.send(resultValidation);
             return false;
@@ -60,4 +67,16 @@ function validation(fileName, width, height, imagePath) {
     });
 }
 exports.validation = validation;
+function checkImageExist(destination) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield fs_1.promises.access(destination);
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
+    });
+}
+exports.checkImageExist = checkImageExist;
 //# sourceMappingURL=utilities.js.map
