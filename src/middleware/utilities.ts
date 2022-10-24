@@ -9,7 +9,7 @@ export async function resizeImage(imagePath:string,width:number,height:number,im
           .resize(width, height)
           .toFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
       } catch (e) {
-        return e
+        return e;
       }
       return true
     

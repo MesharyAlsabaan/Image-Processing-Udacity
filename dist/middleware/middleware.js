@@ -38,13 +38,17 @@ function getImage(req, res) {
             res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
             return;
         }
-        (0, utilities_1.resizeImage)(imagePath, width, height, imagesFolderPath);
+        console.log(isImageExist);
+        yield (0, utilities_1.resizeImage)(imagePath, width, height, imagesFolderPath);
         res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
     });
 }
 exports.getImage = getImage;
 function validation(fileName, width, height, imagePath) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (!height) {
+            return 'Please make sure that you fill all the queries';
+        }
         if (!fileName || (!width && height)) {
             return 'Please make sure that you fill all the queries';
         }

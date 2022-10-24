@@ -29,7 +29,7 @@ export async function getImage(
     return;
   }
 
-  resizeImage(imagePath, width, height, imagesFolderPath);
+  await resizeImage(imagePath, width, height, imagesFolderPath);
 
   res.sendFile(`${imagesFolderPath}/thumb/${width}X${height}.png`);
 }
@@ -40,6 +40,10 @@ export async function validation(
   height?: number,
   imagePath?: string,
 ): Promise<string> {
+
+  if (!height) {
+    return 'Please make sure that you fill all the queries';
+  }
   if (!fileName || (!width && height)) {
     return 'Please make sure that you fill all the queries';
   }
